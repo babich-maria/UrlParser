@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using ProcessingService.Interfaces;
+using ProcessingService.Services;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace FSecureAssignment
 {
@@ -24,6 +21,13 @@ namespace FSecureAssignment
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Info { Title = "F-Secure Assignment API V1", Version = "v1" });
+            });
+
+            services.AddScoped<IUrlProcessingService, UrlProcessingService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -34,6 +38,12 @@ namespace FSecureAssignment
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "F-Secure Assignment API V1");
+            });
 
             app.UseMvc();
         }
