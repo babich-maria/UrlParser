@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Services.Interfaces;
 
 namespace Services
 {
-    class SettingService
+    public class SettingService : ISettingService
     {
-        string ReadPattern(string path)
+        public string ReadPattern(string path)
         {
-            return "SD";
+            string pattern = System.IO.File.ReadAllText(path);
+
+            return pattern;
         }
     }
 }

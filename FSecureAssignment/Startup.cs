@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProcessingService.Interfaces;
 using ProcessingService.Services;
+using Services;
+using Services.Interfaces;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace FSecureAssignment
@@ -26,9 +28,15 @@ namespace FSecureAssignment
                 options.SwaggerDoc("v1", new Info { Title = "F-Secure Assignment API V1", Version = "v1" });
             });
 
-            services.AddScoped<IUrlProcessingService, UrlProcessingService>();
+            RegisterDependencies(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+        }
+
+        private void RegisterDependencies(IServiceCollection services)
+        {
+            services.AddScoped<IUrlProcessingService, UrlProcessingService>();
+            services.AddScoped<ISettingService, SettingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

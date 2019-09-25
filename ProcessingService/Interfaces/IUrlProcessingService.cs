@@ -4,6 +4,6 @@ namespace ProcessingService.Services
 {
     public interface IUrlProcessingService
     {
-        IEnumerable<string> GetNormalizedLinks(string inputText);
+        IEnumerable<string> GetNormalizedLinks(string inputText, string pattern);
     }
 }
